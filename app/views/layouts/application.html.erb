@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja" id="htmltag" class='<%= @sun_set_rize.add_night_class %>'>
+  <head>
+    <meta charset="utf-8">
+    <title><%= yield(:title) %>BabyApp</title>
+    <%= favicon_link_tag('favicon.ico') %>
+    <meta name=”description” content="BabyAppは現役のママの意見が反映された、赤ちゃんの授乳・ミルク・排泄などを簡単操作で記録するアプリです。新生児の検診・保育園への連絡帳などBabyAppの記録をご活用下さい。">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
+  </head>
+
+  <body class="bg-light">
+    <header>
+      <nav class="navbar navbar-expand navbar-light bg-light">
+        <div class="container-fluid">
+          <%= link_to "BabyApp#{@add_demo_title}", logs_path, class: "navbar-brand mb-0 h1" %>
+          <div class="d-flex">
+            <ul class="navbar-nav">
+              <% if user_signed_in? %>
+                <span class="me-2 navbar-text">
+                  <label class="d-inline-block me-1" for="lighting-sw"><i class="fas fa-lightbulb"></i></label>
+                  <div class="form-check form-switch d-inline-block">
+                    <input class="form-check-input" type="checkbox" id="lighting-sw">
+                    <label class="form-check-label" for="lighting-sw"><i class="far fa-lightbulb"></i></label>
+                  </div>
+                </span>
+                <li class="nav-item">
+                  <a href="<%= setting_path %>" class="nav-link"><i class="fas fa-cog"></i></a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <%= tag.i(class: 'fas fa-user-circle').html_safe %>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <% if @demo_user %>
+                    <li><span class="dropdown-item-text">デモユーザー</span><li>
+                    <% else %>
+                    <li><span class="dropdown-item-text"><%= current_user.email %></span><li>
+                    <% end %>
+                    <% unless @demo_user %>
+                      <li><%= link_to("アカウント編集", edit_user_registration_path, class: 'dropdown-item') %></li>
+                    <% end %>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><%= link_to("ログアウト", destroy_user_session_path, method: :delete, class: 'dropdown-item') %></li>
+                  </ul>
+                </li>
+              <% else %>
+                <li class="nav-item">
+                  <%= link_to '新規登録', new_user_registration_path, class: "nav-link" %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'ログイン', new_user_session_path, class: "nav-link" %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      
+    </header>
+    <div class="container-fluid py-2 <%= 'mw-md' unless controller_name == 'logs' && action_name == 'index' || controller_name == 'description' && action_name == 'index' || controller_name == 'sessions' && action_name == 'new' || controller_name == 'chart' && action_name == 'index' %>">
+      <% if notice %>
+        <div id="notice" class="alert alert-success fixed-top alert-dismissible fade show" style="display:none"><%= notice.html_safe %><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+      <% end %>
+      <% if alert %>
+        <div id="alert" class="alert alert-danger fixed-top alert-dismissible fade show" style="display:none"><%= alert %><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+      <% end %>
+      <%= yield %>
+    </div>
+  </body>
+</html>

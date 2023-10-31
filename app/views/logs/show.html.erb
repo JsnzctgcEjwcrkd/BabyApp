@@ -1,0 +1,12 @@
+<p>
+  <strong>Description:</strong>
+  <%= @log.description %>
+</p>
+
+<p>
+  <strong>Date time:</strong>
+  <%= @log.date_time %>
+</p>
+
+<%= link_to '編集', edit_log_path(@log), class: "btn btn-primary" %> |
+<%= link_to '戻る', logs_path, class: "btn btn-link" %>

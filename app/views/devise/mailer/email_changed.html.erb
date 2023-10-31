@@ -1,0 +1,21 @@
+<p>※このメールは自動送信メールです。</p>
+
+<p><%= @email %> 様</p>
+
+<% if @resource.try(:unconfirmed_email?) %>
+  <p>ご登録のメールアドレスが<%= @resource.unconfirmed_email %>に変更されたことをお知らせします。</p>
+<% else %>
+  <p>ご登録のメールアドレスが<%= @resource.email %>に変更されたことをお知らせします。</p>
+<% end %>
+
+<p>
+覚えがないのにこのメールが届いたという方<br>
+ご迷惑をおかけし申し訳ありません。大変お手数ですが下記メールアドレスまでご連絡をお願いいたします。<br>
+</p>
+<p><%= Rails.application.credentials.mailer[:mail_bcc] %></p>
+
+<p>――――――――――――――――――――――――――――――</p>
+<%= Rails.application.credentials.mailer[:app_name] %><br>
+URL ： <%= Rails.application.credentials.mailer[:web_protocol] %>://<%= Rails.application.credentials.mailer[:web_host] %><br>
+Mail ： <%= Rails.application.credentials.mailer[:mail_bcc] %><br>
+<p>――――――――――――――――――――――――――――――</p>

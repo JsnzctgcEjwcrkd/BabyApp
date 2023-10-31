@@ -1,0 +1,5 @@
+<h1>新規 : <%= print_log_type(@log.log_type) %></h1>
+
+<%= render 'form', log: @log %>
+
+<%= link_to '戻る', logs_path, class: "btn btn-link" %>

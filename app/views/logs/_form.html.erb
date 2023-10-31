@@ -1,0 +1,4 @@
+<%= form_with(model: log, local: true) do |form| %>
+  <%= render 'form_inner', log: log, form: form %>
+<% end %>
+<%= javascript_pack_tag 'logs/form' %>

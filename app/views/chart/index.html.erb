@@ -1,0 +1,19 @@
+<h1>体温グラフ</h1>
+<%= javascript_pack_tag 'charts/bt_view' %>
+  <!-- 表示切替 -->
+  <div class="btn-group mr-3" role="group" aria-label="Basic example">
+    <%= link_to "今日", chart_index_path(move: 0), class: "btn btn-sm btn-secondary" %>
+    <%= link_to "<<", chart_index_path(move: -@days), class: "btn btn-sm btn-secondary" %>
+    <%= link_to ">>", chart_index_path(move: @days), class: "btn btn-sm btn-secondary" %>
+  </div>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <%= link_to "週", chart_index_path(disp: 7), class: "btn btn-dark btn-sm" %>
+    <%= link_to "過去表示", chart_index_path(display_ago: (@display_ago == 1 ? 0 : 1)), id: "display-ago-toggle", class: "btn btn-outline-primary btn-sm #{@display_ago_toggle_class}", role: "button", 'data-bs-toggle': "button", 'aria-pressed': @display_ago_toggle %>
+    <%= link_to "日", chart_index_path(disp: 1), class: "btn btn-dark btn-sm" %>
+    <%= link_to "3日", chart_index_path(disp: 3), class: "btn btn-dark btn-sm" %>
+  </div>
+  <!-- グラフ描画エリア -->
+  <hr>
+  <canvas id="myChart" data-labels="<%= @data_keys %>" data-data="<%= @data_values %>" data-start="<%= @start_date %>" data-end="<%= @end_date %>"></canvas>
+  <hr>
+<%= link_to '戻る', logs_path, class: "btn btn-link" %>

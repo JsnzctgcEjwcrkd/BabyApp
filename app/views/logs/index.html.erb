@@ -1,0 +1,125 @@
+<%= set_alert_body_temperature %>
+<div id="data-for-ajax" data-base-url="<%= logs_ajax_path %>" data-start-date="<%= @start_date %>" data-days="<%= @days %>">
+<div class="table-responsive">
+  <table class="logs table text-nowrap table-bordered border-secondary table-sm">
+    <thead>
+      <tr>
+        <% @days.times do |i| %>
+          <th rowspan="2"></th>
+          <th colspan="6" id="day<%= i %>" class="text-center <%= 'text-primary' if today?(@start_date + i) %>"><%= format_date(@start_date + i)%></br><%= month_diff(@start_date + i) %></br><%= puts_from_birth(@start_date + i) %></th>
+        <% end %>
+      </tr>
+      <tr>
+        <% @days.times do %>
+          <th scope="col" class="text-center table-warning border-secondary">母乳</th>
+          <th scope="col" class="text-center table-success border-secondary">ミルク</th>
+          <th scope="col" class="text-center table-info border-secondary">尿</th>
+          <th scope="col" class="text-center table-primary border-secondary">便</th>
+          <th scope="col" class="text-center table-danger border-secondary">体温</th>
+          <th scope="col" class="text-center table-secondary border-secondary">備考</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% 24.times do |hour| %>
+        <tr>
+          <% @days.times do |day| %>
+            <% if hour == 8 || hour == 16 %>
+              <th scope="row" class="top-border text-center"><%= hour %></th>
+              <% LogsHelper::TABLE_ORDER_AND_BG_COLOR.each_with_index do |t, index| %>
+                <td class="fw-bold text-center top-border <%= t[:bg_color_class] %> border-secondary" data-log-ajax="true" data-date="<%= @start_date + day %>" data-hour="<%= hour %>" data-table="<%= t[:table_name] %>" data-type="<%= index %>" id="day<%= day %>_<%= t[:table_name] %>_<%= hour %>"></td>
+              <% end %>
+            <% else %>
+              <th scope="row" class="text-center"><%= hour %></th>
+              <% LogsHelper::TABLE_ORDER_AND_BG_COLOR.each_with_index do |t, index| %>
+                <td class="fw-bold text-center <%= t[:bg_color_class] %> border-secondary" data-log-ajax="true" data-date="<%= @start_date + day %>" data-hour="<%= hour %>" data-table="<%= t[:table_name] %>" data-type="<%= index %>" id="day<%= day %>_<%= t[:table_name] %>_<%= hour %>"></td>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+      <!-- 小計行 -->
+      <tr>
+        <% @days.times do |day| %>
+          <th></th>
+          <td class="text-center" colspan="6" id="day_<%= day %>_syoukei"><%= sub_total(day) %></td>
+        <% end %>
+      </tr>
+      <!-- 合計行 -->
+      <tr>
+        <% @days.times do |day| %>
+          <th></th>
+          <td class="text-center" colspan="6" id="day_<%= day %>_goukei"><%= total(day) %></td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="btn-group mr-3" role="group" aria-label="Basic example">
+  <%= link_to "今日", logs_path(move: 0), class: "btn btn-sm btn-secondary" %>
+  <%= link_to "<<", logs_path(move: -@days), class: "btn btn-sm btn-secondary" %>
+  <%= link_to ">>", logs_path(move: @days), class: "btn btn-sm btn-secondary" %>
+</div>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+  <%= link_to "週", logs_path(disp: 7), class: "btn btn-dark btn-sm" %>
+  <%= link_to "過去表示", logs_path(display_ago: (@display_ago == 1 ? 0 : 1)), id: "display-ago-toggle", class: "btn btn-outline-primary btn-sm #{@display_ago_toggle_class}", role: "button", 'data-bs-toggle': "button", 'aria-pressed': @display_ago_toggle %>
+  <%= link_to "日", logs_path(disp: 1), class: "btn btn-dark btn-sm" %>
+  <%= link_to "3日", logs_path(disp: 3), class: "btn btn-dark btn-sm" %>
+</div>
+<%= link_to "備考一覧", description_index_path, class: "btn btn-sm btn-dark" %>
+<%= link_to "連絡帳サポート", nursery_support_index_path, class: "btn btn-sm btn-dark" %>
+<%= link_to "体温グラフ", chart_index_path, class: "btn btn-sm btn-primary" %>
+
+
+<!-- Button trigger modal -->
+<div class="logs_fix_area text-center">
+  <div class="" id='syncing-info'>
+    <p class="fs-6 mb-0"><i class="fas fa-sync-alt load"></i><span>&nbsp;同期中</span></p>
+    <%# <p class="fs-6 mb-0" id="sync-percent">100%</p> %>
+  </div>
+  <a id="add_log" href="#" class="text-primary text-end" role="button" data-bs-toggle="modal" data-bs-target="#logButtonsModal"><i class="fas fa-edit fa-4x"></i></a>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="logButtonsModal" tabindex="-1" aria-labelledby="logButtonsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="logButtonsModalLabel"><i class="fas fa-edit"></i> 入力しましょう</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row gx-3">
+          <div class="col-sm-6 mb-3">
+            <%= link_to ("母乳" + tag.br + last_time(0)).html_safe, new_log_path(type: 0), class: "fw-bold btn w-100 orign-d-flex log-#{btn_class_changer}btn btn-#{btn_class_changer}warning" %>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <%= link_to ("ミルク" + tag.br + last_time(1)).html_safe, new_log_path(type: 1), class: "fw-bold btn w-100 orign-d-flex log-#{btn_class_changer}btn btn-#{btn_class_changer}success" %>
+          </div>
+        </div>
+        <div class="row gx-3">
+          <div class="col-sm-6 mb-3">
+            <%= link_to ("尿" + tag.br + last_time(2)).html_safe, new_log_path(type: 2), class: "fw-bold btn w-100 orign-d-flex log-#{btn_class_changer}btn btn-#{btn_class_changer}info" %>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <%= link_to ("便" + tag.br + last_time(3)).html_safe, new_log_path(type: 3), class: "fw-bold btn w-100 orign-d-flex log-#{btn_class_changer}btn btn-#{btn_class_changer}primary" %>
+          </div>
+        </div>
+        <div class="row gx-3">
+          <div class="col-sm-6 mb-3">
+            <%= link_to ("体温" + tag.br + check_body_temperature).html_safe, new_log_path(type: 4), class: "fw-bold btn w-100 orign-d-flex log-#{btn_class_changer}btn btn-#{btn_class_changer}danger" %>
+          </div>
+          <div class="col-sm-6 mb-3">
+            <%= link_to "備考", new_log_path(type: 5), class: "fw-bold btn w-100 orign-d-flex log-#{btn_class_changer}btn btn-#{btn_class_changer}secondary" %>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+<%= javascript_pack_tag 'logs/table_view' %>

@@ -1,0 +1,18 @@
+<h1>備考一覧</h1>
+<%= link_to '戻る', logs_path, class: "btn btn-primary" %>
+<%= paginate @logs, window: 2, theme: 'bootstrap-5', pagination_class: "pagination-sm", nav_class: "d-flex justify-content-center" %>
+
+<%= search_form_for @q, url: description_index_path do |f| %>
+  <div class="row">
+    <div class="col-md-4 ms-auto">
+      <div class="input-group mb-3 mt-3">
+        <%= f.search_field :description_cont, class: "form-control", placeholder: "検索" %>
+        <%= f.submit class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= description_cards %>
+<%= paginate @logs, window: 2, theme: 'bootstrap-5', pagination_class: "pagination-sm", nav_class: "d-flex justify-content-center" %>
+<%= link_to '戻る', logs_path, class: "btn btn-primary" %>

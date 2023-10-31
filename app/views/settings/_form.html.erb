@@ -1,0 +1,51 @@
+<%= form_with(url: setting_path, model: setting, local: true) do |form| %>
+  <% if setting.errors.any? %>
+    <div id="error_explanation">
+      <ul>
+        <% setting.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :user_id %>
+
+  <div class="mb-3">
+    <%= form.label :birth_day, "お誕生日または出産予定日", class: "form-label" %>
+    <%= form.date_field :birth_day, class: "form-control" %>
+  </div>
+
+  <span class="me-2 navbar-text">東京都 <i class="fas fa-sun"></i> <%= @sun_set_rize.formatted_rize_time %> <i class="fas fa-moon"></i><%= @sun_set_rize.formatted_set_time %></span>
+
+  <div class="mb-3 range">
+    <%= form.label :milk_min, "ミルク入力最小値", class: "form-label" %> : <span class="fs-2 fw-bold"></span> ml
+    <%= form.range_field :milk_min, :min=>0, :max=>400, step: 10, class: "form-range" %>
+  </div>
+
+  <div class="mb-3 range">
+    <%= form.label :milk_max, "ミルク入力最大値", class: "form-label" %> : <span class="fs-2 fw-bold"></span> ml
+    <%= form.range_field :milk_max, :min=>0, :max=>400, step: 10, class: "form-range" %>
+  </div>
+
+  <div class="mb-3 range">
+    <%= form.label :milk_default, "ミルク入力初期値", class: "form-label" %> : <span class="fs-2 fw-bold"></span> ml
+    <%= form.range_field :milk_default, :min=>0, :max=>400, step: 10, class: "form-range" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :stool_color_default, "便の色入力初期値", class: "form-label" %>
+    <%= form.select :stool_color_default, [1,2,3,4,5,6,7], {}, {class: 'form-select'} %>
+  </div>
+
+  <div class="mb-3 range">
+    <%= form.label :body_temp_default, "体温の初期値", class: "form-label" %> : <span class="fs-2 fw-bold"></span> °C
+    <%= form.range_field :body_temp_default, :min=>32.0, :max=>42.0, step: 0.1, :class=>"form-range" %>
+  </div>
+
+  <div class="mb-3 actions d-grid gap-2">
+    <%= form.submit action_text, class: "btn btn-primary btn-lg" %>
+  </div>
+<% end %>
+
+<%= javascript_pack_tag 'logs/form' %>

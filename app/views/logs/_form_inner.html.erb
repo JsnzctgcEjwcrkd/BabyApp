@@ -1,0 +1,101 @@
+<% if log.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(log.errors.count, "error") %> prohibited this log from being saved:</h2>
+
+    <ul>
+      <% log.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form.hidden_field :log_type %>
+<%= form.hidden_field :user_id %>
+
+<% case log.log_type %>
+<% when 1 %>
+  <div class="mb-3 range">
+    <%= form.label :milk_amount, "ミルクの量", class: "form-label" %> : <span class="fs-2 fw-bold"></span> ml
+    <% if edit? %>
+      <%= form.range_field :milk_amount, min: current_user.setting.milk_min, max: current_user.setting.milk_max, step: 10, :class=>"form-range"%>
+    <% else %>
+      <%= form.range_field :milk_amount, min: current_user.setting.milk_min, max: current_user.setting.milk_max, step: 10, value: current_user.setting.milk_default, :class=>"form-range"%>
+    <% end %>
+  </div>
+<% when 3 %>
+  <div class="form-check">
+    <%= form.check_box :stool_little, class: "form-check-input" %>
+    <%= form.label :stool_little, '少量 <i class="fas fa-hand-lizard"></i>'.html_safe, class: "form-check-label" %>
+  </div>
+  <% unless edit? %>
+    <div class="form-check">
+      <%= form.check_box :add_urine, {class: "form-check-input", checked: true} %>
+      <%= form.label :add_urine, '尿の同時入力', class: "form-check-label" %>
+    </div>
+  <% end %>
+  <div class="mb-3">
+    <%= form.label :stool_color, '便の色', class: "form-label" %>
+    <% (1..7).each do |i| %>
+      <div class="list-group mb-1">
+        <label class="list-group-item ignore-dark stool-color-<%= i %>">
+        <% if edit? %>
+          <%= form.radio_button :stool_color, i, class: "form-check-input me-1" %>
+        <% else %>
+          <%= form.radio_button :stool_color, i, class: "form-check-input me-1", checked: current_user.setting.stool_color_default == i %>
+        <% end %>
+        (<%= i %>)
+        </label>
+      </div>
+    <% end %>
+    <div class="form-text">母子手帳付録の便色カードを参考とした選択肢です。利用環境により色味が異なります。疾病を判断する為のものではありません。日々の記録としてご利用下さい。</div>
+  </div>
+<% when 4 %>
+  <div class="mb-3 range">
+    <%= form.label :body_temperature, "体温", class: "form-label" %> : <span class="fs-2 fw-bold"></span> °C
+    <% if edit? %>
+      <%= form.range_field :body_temperature, :min=>32.0, :max=>42.0, step: 0.1, :class=>"form-range" %>
+    <% else %>
+      <%= form.range_field :body_temperature, :min=>32.0, :max=>42.0, step: 0.1, value: current_user.setting.body_temp_default, :class=>"form-range" %>
+    <% end %>
+  </div>
+<% when 5 %>
+  <div class="mb-3">
+    <%= form.label :tag_list, "タグ", class: "form-label" %>
+    <%= form.text_area :tag_list, value: log.tag_list.join(','), class: "form-control", rows: 1 %>
+    <div class="mt-1">
+      <button type="button" class="btn btn-secondary btn-sm add-tag-btn" data-tag-text="寝た"><i class='fas fa-tag'></i> 寝た</button>
+      <button type="button" class="btn btn-secondary btn-sm add-tag-btn" data-tag-text="起きた"><i class='fas fa-tag'></i> 起きた</button>
+      <button type="button" class="btn btn-secondary btn-sm add-tag-btn" data-tag-text="お白湯"><i class='fas fa-tag'></i> お白湯</button>
+      <button type="button" class="btn btn-secondary btn-sm add-tag-btn" data-tag-text="パパママ体温"><i class='fas fa-tag'></i> パパママ体温</button>
+      <button type="button" class="btn btn-secondary btn-sm add-tag-btn" data-tag-text="保育園メモ"><i class='fas fa-tag'></i> 保育園メモ</button>
+      <button type="button" class="btn btn-secondary btn-sm add-tag-btn" data-tag-text="離乳食"><i class='fas fa-tag'></i> 離乳食</button>
+      <button type="button" class="btn btn-secondary btn-sm add-tag-btn" data-tag-text="連絡帳ネタ"><i class='fas fa-tag'></i> 連絡帳ネタ</button>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= form.label :description, "備考", class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 6 %>
+  </div>
+<% end %>
+
+<div class="mb-3">
+  <%= form.label :date_time, "記録日時", class: "form-label" %> : <br>
+    <span id="big-date-time-y" class="fs-1 fw-bold"></span>
+    <span class="fs-6 fw-bold">年</span>
+    <span id="big-date-time-m" class="fs-1 fw-bold"></span>
+    <span class="fs-6 fw-bold">月</span>
+    <span id="big-date-time-d" class="fs-1 fw-bold"></span>
+    <span class="fs-6 fw-bold">日</span>
+    <span id="big-date-time-h" class="fs-1 fw-bold"></span>
+    <span class="fs-6 fw-bold">時</span>
+    <span id="big-date-time-min" class="fs-1 fw-bold"></span>
+    <span class="fs-6 fw-bold">分</span>
+    <br>
+  <%= form.datetime_select :date_time, {default: Time.zone.now.floor_to(5.minutes), minute_step: 5, use_month_numbers: true, date_separator: ' -  ', datetime_separator: ' T  '} , class: "form-control bootstrap-date" %>
+  <div data-plusminus="minus" class="5min-btn btn btn-secondary ms-3">-5分</div><div data-plusminus="plus" class="5min-btn btn btn-secondary ms-3">+5分</div>
+</div>
+
+<div class="mb-3 actions d-grid gap-2">
+  <%= form.submit action_text, class: "btn btn-primary btn-lg" %>
+</div>

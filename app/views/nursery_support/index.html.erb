@@ -1,0 +1,57 @@
+<h1>連絡帳サポート</h1>
+<p class="text-muted">保育園連絡帳記入の為の集計ページ</p>
+<%= form_with scope: :support, url: nursery_support_index_path, method: :get do |form| %>
+  <%= form.label :start_time, "開始", class: "form-label" %>
+  <%= form.datetime_select :start_time, {default: @start_date.floor_to(5.minutes), minute_step: 5, use_month_numbers: true, date_separator: ' -  ', datetime_separator: ' T  '} , class: "form-control bootstrap-date" %>
+  <br>
+  <%= form.label :end_time, "終了", class: "form-label" %>
+  <%= form.datetime_select :end_time, {default: @end_date.floor_to(5.minutes), minute_step: 5, use_month_numbers: true, date_separator: ' -  ', datetime_separator: ' T  '} , class: "form-control bootstrap-date" %>
+  <%= form.submit "適用", class: "btn btn-primary btn-sm" %>
+<% end %>
+<%= link_to '戻る', logs_path, class: "btn btn-link" %>
+<hr>
+<div>
+  <h2 class="d-inline">
+    体温サマリー
+  </h2>
+  <span class='text-success p-1'><i class='fas fa-tag'></i> パパママ体温</span>
+  <p class="text-muted">お子様の体温と、備考に「パパママ体温」のタグがついている記録を集計します。</p>
+  <%= body_temp_summary %>
+</div>
+<hr>
+<div>
+  <h2 class="d-inline">
+    睡眠サマリー
+  </h2>
+  <span class='text-success p-1'><i class='fas fa-tag'></i> 寝た</span><span class='text-success p-1'><i class='fas fa-tag'></i> 起きた</span>
+  <p class="text-muted">備考に「寝た」「起きた」のタグがついている記録を集計します。</p>
+  <%= sleep_summary %>
+</div>
+<hr>
+<div>
+  <h2 class="d-inline">
+    ミルク・食事サマリー
+  </h2>
+  <span class='text-success p-1'><i class='fas fa-tag'></i> 離乳食</span><span class='text-success p-1'><i class='fas fa-tag'></i> お白湯</span>
+  <p class="text-muted">ミルクまたは、備考に「離乳食」「お白湯」のタグがついている記録を集計します。</p>
+  <%= milk_meal_summary %>
+</div>
+<hr>
+<div>
+  <h2 class="d-inline">
+    連絡帳ネタサマリー
+  </h2>
+  <span class='text-success p-1'><i class='fas fa-tag'></i> 連絡帳ネタ</span>
+  <p class="text-muted">備考に「連絡帳ネタ」のタグがついている記録を集計します。</p>
+  <%= topics_summary %>
+</div>
+<hr>
+<div>
+  <h2 class="d-inline">
+    保育園メモサマリー
+  </h2>
+  <span class='text-success p-1'><i class='fas fa-tag'></i> 保育園メモ</span>
+  <p class="text-muted">備考に「保育園メモ」のタグがついている記録を集計します。</p>
+  <%= memo_summary %>
+</div>
+<%= link_to '戻る', logs_path, class: "btn btn-link" %>

@@ -1,0 +1,170 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:400,700');
+
+body {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+
+html.night {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+.night .ignore-dark {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+.bootstrap-date {
+  display: inline-block;
+  width: auto;
+}
+
+.orign-d-flex {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+}
+
+.log-btn {
+  color: white;
+  height: 65px;
+  font-size: 13pt !important;
+}
+.log-btn:hover {
+  color: white;
+}
+
+@media screen and (min-width:576px) {
+  .log-btn{
+    color: white;
+    height: 200px;
+    font-size: 20pt !important;
+  }
+  .log-btn:hover {
+    color: white;
+  }
+}
+
+.log-outline-btn {
+  color: black;
+  height: 65px;
+  font-size: 13pt !important;
+}
+.log-outline-btn:hover {
+  color: black;
+}
+
+@media screen and (min-width:576px) {
+  .log-outline-btn{
+    color: black;
+    height: 200px;
+    font-size: 20pt !important;
+  }
+  .log-outline-btn:hover {
+    color: black;
+  }
+}
+
+.logs {
+  user-select: none;
+  th, td {
+    padding-top: 0;
+    padding-bottom: 0;
+    color: dimgray;
+  }
+}
+
+.top-border {
+  border-top-width: 4px !important;
+}
+
+.btn-extra-large {
+  padding: 80px 40px; /* 適切なパディングを設定して高さを調整 */
+  font-size: 24px; /* 適切なフォントサイズを設定 */
+}
+
+.mb-3 {
+  width: 100%;
+  overflow: hidden; /* オーバーフローを隠す（画像が親要素からはみ出ないようにするため） */
+}
+
+.img-max {
+  width: 100%; /* 画像の幅を100%に設定 */
+  height: auto; /* アスペクト比を保つために高さを自動に設定 */
+  display: block; /* 不要な余白を削除 */
+}
+
+// max-width
+
+.mw-md {
+  max-width: 700px;
+}
+
+.logs_fix_area {
+  opacity: 0.7;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+}
+
+.disp-none {
+  display: none;
+}
+
+.load {
+  -webkit-animation: spin 1.5s linear infinite;
+  -moz-animation: spin 1.5s linear infinite;
+  -ms-animation: spin 1.5s linear infinite;
+  -o-animation: spin 1.5s linear infinite;
+  animation: spin 1.5s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {-webkit-transform: rotate(0deg);}
+  100% {-webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes spin {
+  0% {-moz-transform: rotate(0deg);}
+  100% {-moz-transform: rotate(360deg);}
+}
+
+@-ms-keyframes spin {
+  0% {-ms-transform: rotate(0deg);}
+  100% {-ms-transform: rotate(360deg);}
+}
+
+@-o-keyframes spin {
+  0% {-o-transform: rotate(0deg);}
+  100% {-o-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
+.syncing-flash {
+  animation: flash 1.5s linear infinite;
+}
+
+@keyframes flash {
+  0%,100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+// 便色
+.stool-color-1 { background-color: rgb(209, 210, 179);}
+.stool-color-2 { background-color: rgb(208, 197, 141);}
+.stool-color-3 { background-color: rgb(217, 200, 122);}
+.stool-color-4 { background-color: rgb(231, 205, 82);}
+.stool-color-5 { background-color: rgb(207, 159, 51);}
+.stool-color-6 { background-color: rgb(193, 129, 57);}
+.stool-color-7 { background-color: rgb(134, 112, 52);}

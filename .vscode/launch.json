@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "rdbg",
+      "name": "Debug Rails",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "script": "bin/rails server -e development -p 3000 -b '0.0.0.0'",
+      "args": [],
+      "askParameters": false,
+      "useBundler": true,
+    },
+  ]
+}
