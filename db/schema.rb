@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2023_10_30_063820) do
-  create_table "logs", force: :cascade do |t|
+  create_table "logs", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "log_type"
     t.integer "milk_amount"
     t.boolean "stool_little"
@@ -26,11 +26,11 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_30_063820) do
     t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
-  create_table "settings", force: :cascade do |t|
-    t.integer "user_id", null: false
+  create_table "settings", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
     t.datetime "birth_day", precision: nil
-    t.decimal "latitude"
-    t.decimal "longitude"
+    t.decimal "latitude", precision: 10
+    t.decimal "longitude", precision: 10
     t.boolean "night_mode", default: false, null: false
     t.string "border_line", default: "8,16"
     t.integer "milk_default", default: 80, null: false
@@ -43,7 +43,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_30_063820) do
     t.index ["user_id"], name: "index_settings_on_user_id"
   end
 
-  create_table "taggings", force: :cascade do |t|
+  create_table "taggings", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
     t.integer "taggable_id"
@@ -63,14 +63,14 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_30_063820) do
     t.index ["tenant"], name: "index_taggings_on_tenant"
   end
 
-  create_table "tags", force: :cascade do |t|
-    t.string "name"
+  create_table "tags", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.string "name", collation: "utf8mb3_bin"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "taggings_count", default: 0
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -96,7 +96,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_30_063820) do
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
-  create_table "versions", force: :cascade do |t|
+  create_table "versions", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "item_type"
     t.string "{:null=>false}"
     t.bigint "item_id", null: false
