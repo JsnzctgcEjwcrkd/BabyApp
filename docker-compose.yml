@@ -7,9 +7,10 @@ services:
     volumes:
       - .:/var/www/baby_app
     working_dir: /var/www/baby_app
-    command: ./bin/docker-entrypoint ./bin/rails server -b '0.0.0.0'
+    # command: ./bin/docker-entrypoint ./bin/rails server -b '0.0.0.0'
     ports:
       - "3000:3000"
+    tty: true
     depends_on:
       db:
         condition: service_healthy
