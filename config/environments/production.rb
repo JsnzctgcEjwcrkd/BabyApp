@@ -99,7 +99,7 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   # device
-  config.action_mailer.default_url_options = { host: Rails.application.credentials.mailer[:prod_server_host],
+  config.action_mailer.default_url_options = { host: Rails.application.credentials.mailer[:web_host],
                                                protocol: Rails.application.credentials.mailer[:web_protocol] }
 
   config.action_mailer.raise_delivery_errors = true
