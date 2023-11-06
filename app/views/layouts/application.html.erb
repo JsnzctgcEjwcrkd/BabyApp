@@ -12,6 +12,8 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'application', media: 'all' %>
+    <script src="https://unpkg.com/@sjmc11/tourguidejs/dist/tour.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@sjmc11/tourguidejs/dist/css/tour.min.css">
   </head>
 
   <body class="bg-light">
@@ -22,7 +24,12 @@
           <div class="d-flex">
             <ul class="navbar-nav">
               <% if user_signed_in? %>
-                <span class="me-2 navbar-text">
+                <% if @demo_user %>
+                  <%= link_to "使い方ガイドを再表示", "#", onclick: "tg_start()", class: "btn  btn-warning",
+                      style: 'margin-right: 10px;'
+                  %>
+                <% end %>
+                <span class="me-2 navbar-text" id="light_sw">
                   <label class="d-inline-block me-1" for="lighting-sw"><i class="fas fa-lightbulb"></i></label>
                   <div class="form-check form-switch d-inline-block">
                     <input class="form-check-input" type="checkbox" id="lighting-sw">
@@ -30,7 +37,7 @@
                   </div>
                 </span>
                 <li class="nav-item">
-                  <a href="<%= setting_path %>" class="nav-link"><i class="fas fa-cog"></i></a>
+            <a href="<%= setting_path %>" class="nav-link" id="setting_bt"><i class="fas fa-cog"></i></a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,6 +51,8 @@
                     <% end %>
                     <% unless @demo_user %>
                       <li><%= link_to("アカウント編集", edit_user_registration_path, class: 'dropdown-item') %></li>
+                      <li><%= link_to "使い方ガイド", "#", onclick: "tg_start()", class: "dropdown-item"
+                       %></li>
                     <% end %>
                     <li><hr class="dropdown-divider"></li>
                     <li><%= link_to("ログアウト", destroy_user_session_path, method: :delete, class: 'dropdown-item') %></li>

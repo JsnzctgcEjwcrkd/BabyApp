@@ -145,6 +145,7 @@ class LogsController < ApplicationController
 
     if @demo_user
       current_user.setting.update(birth_day: Date.today - 6.days)
+      @path = 'demo'
     else
       redirect_to birth_setting_path, notice: 'ようこそBabyAppへ！お子様のお誕生日を設定してください。'
     end

@@ -1,90 +1,113 @@
 # BabyApp
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## About
 
-Things you may want to cover:
+Babyapp is an application designed to manage records of activities like feeding and diaper changes for babies. The paper formats provided by maternity wards for record-keeping posed challenges, including limited space for writing, the difficulty of writing in dimly lit conditions at night, and the possibility of forgetting to record due to a busy schedule. To address these issues and as a personal portfolio project, I developed this service. The features incorporated into the app are ones that I personally needed, and whether they would be equally appealing to others is questionable. However, I personally am quite fond of these features.
 
-* Ruby version
-  - v3.2.2
-
-* System dependencies
-  - ruby
-  - mysql2
-
-* Configuration
-
-* Database creation
-
-  `bin/rails db:create`
-
-* Database initialization
-
-  `bin/rails db:prepare`
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Develpment Setup instructions
-
-  1. ローカルにDockerをインストールします
-  1. docker compose build
-  1. docker compose up
-  1. ホストPCのブラウザで <http://localhost:3000> へアクセス
-
-* Deployment instructions
-
-
-* ...
-
----
-
-![Header Image](/docs/img/header/header.png)
-
-<br />
+![Application Preview](app/assets/images/babyapp_ss.png)
 
 ## Service URL
 
 We have implemented a demo interface with sample data so you can try it out without registration.
 
-https://babyapp.jp/
+<https://babyapp.jp/>
 
-<br />
+## Screen transition diagram
 
-## About
+```mermaid
+graph LR
+    A[Login] --> B[Registration]
+    A --> C[Birthday Setup] --> D
+    A --> D[Main Log]
+    D --> F[Input Menu]
+    F --> G[Breast Input]
+    F --> H[Milk Input]
+    F --> I[Urine Input]
+    F --> J[Stool Input]
+    F --> K[Body Temperature Input]
+    F --> L[Descriptoin Input]
+    D --> M[Breast Edit]
+    D --> N[Milk Edit]
+    D --> O[Urine Edit]
+    D --> P[Stool Edit]
+    D --> Q[Body Temperature Edit]
+    D --> R[Descriptoin Edit]
+    D --> S[Descriptoin List] --> R
+    D --> T[Contact Support]
+    D --> U[Body Temperature Graph]
+    D --> V[Settings]
+    D --> W[Account Settings]
+```
 
-Babyapp is an application designed to manage records of activities like feeding and diaper changes for babies. The paper formats provided by maternity wards for record-keeping posed challenges, including limited space for writing, the difficulty of writing in dimly lit conditions at night, and the possibility of forgetting to record due to a busy schedule. To address these issues and as a personal portfolio project, I developed this service. The features incorporated into the app are ones that I personally needed, and whether they would be equally appealing to others is questionable. However, I personally am quite fond of these features.
+## Ruby version
 
-<br />
+- v3.2.2
 
-## Application Preview
-![Application Preview](app/assets/images/babyapp_ss.png)
+## System dependencies
 
-<br />
+- ruby
+  - bundler
+- build-essential
+- default-libmysqlclient-dev
+- git
+- libvips
+- pkg-config
+- curl
+- default-mysql-client
+- libvips
+
+## Configuration
+
+## Database creation
+
+  `bin/rails db:create`
+
+## Database initialization
+
+  `bin/rails db:prepare`
+
+## How to run the test suite
+
+  `bundle exec rspec`
+
+## Services (job queues, cache servers, search engines, etc.)
+
+## Develpment Setup instructions
+
+## Deployment instructions
 
 ## List of Features
-| Home Screen | Login Screen |
-| ---- | ---- |
-| ![Home Screen](/docs/img/app-view/welcome_1.1.png) | ![Login Screen](/docs/img/app-view/login_1.1.png) |
-| We have implemented a trial feature that allows you to explore the service without registration. | Authentication with login ID and password is now available. |
 
-| Business Selection Screen | Invoice Creation Screen |
-| ---- | ---- |
-| ![Business Selection Screen](/docs/img/app-view/select-business_1.1.png) | ![Invoice Creation Screen](/docs/img/app-view/create-invoice_1.1.png) |
-| You can now select a business entity from a list of registered businesses to create invoices for. | Features include invoice creation, master data retrieval, tax rate adjustment, and tax rate-specific breakdown calculations, as well as total amount calculations. |
+- [x] Automatic day-night switching
+- [x] Contact book support
+- [x] Moon age display
+- [x] Body temperature graph screen
+- [x] Switch between weekly, 3-day, and daily views
+- [x] Default settings screen
+- [x] Breast milk formula aggregation
+- [x] Synchronization
+- [x] Stress-free slider input
+- [x] Notes popup preview
+- [x] Demo screen implementation
+- [x] Time navigation using button taps
+- [x] Position memory for re-display
+- [x] Edit undo
 
-| Invoice Details Screen | PDF Output Screen |
-| ---- | ---- |
-| ![Invoice Details Screen](/docs/img/app-view/invoice-detail_1.1.png) | ![PDF Output Screen](/docs/img/app-view/print-invoice_1.1.png) |
-| This feature allows you to view invoice data. | You can now generate PDF invoices. |
+## Technical Specifications
 
-| Master Data Selection Screen | Master Data Registration Screen |
-| ---- | ---- |
-| ![Master Data Selection Screen](/docs/img/app-view/select-master_1.1.png) | ![Master Data Registration Screen](/docs/img/app-view/master-register-form_1.1.png) |
-| We have implemented the functionality to register business information and remarks. | Registering master data enables you to retrieve data when creating invoices. |
-
-<br />
+Ruby 3.2.2
+Ruby on Rails 7.1.1
+RSpec 3.12
+Rubocop
+Devise
+RubySunrise
+Ransack
+MySQL 8
+SQLite 3
+Webpack
+Chart.js
+Bootstrap 5
+FontAwesome
 
 ## Technology Stack
 
@@ -100,25 +123,15 @@ Babyapp is an application designed to manage records of activities like feeding 
 | Design            |                                          |
 | etc.              | Rubocop, Git, Git flow, GitHub |
 
-<br />
-
-## System Architecture
-
-![System Architecture](/docs/img/system-architecture/system-architecture_1.1.png)
-
-<br />
-
-## Entity-Relationship Diagram (ER Diagram)
-
-![ER Diagram](/docs/img/entity-relationship-diagram/entity-relationship-diagram_1.6.png)
-
-<br />
-
 ## Future Outlook
 
-This product is divided into four phases, with development progressing incrementally. Currently, we are in Phase 1, focusing on developing the functionality for creating and issuing invoices. Our ultimate goal is to provide an integrated solution that manages all aspects of document creation, accounting, and financial tasks.
-
-- Phase 1: Develop an application that allows users to create and issue invoices online, including support for new tax regulations.
-- Phase 2: Add features to create and issue purchase orders, quotes, and delivery notes online.
-- Phase 3: Implement the ability to view financial and transaction data online.
-- Phase 4: Add features to efficiently integrate transaction data with accounting software.
+- [ ] Consider rebuilding in the Rails 7 series
+- [ ] Daily builds to keep up with library updates
+- [ ] Transition the frontend to React
+- [ ] Transform into microservices and set up a DevOps environment using Kubernetes
+- [ ] Calculate day-night based on the input of the residential area
+- [ ] Implement synchronization using ActionCable
+- [ ] Implement bulk insert
+- [ ] List and preview photos, files (PDF, .txt, .png, .jpeg, movies, etc.)
+- [ ] Support embedded URLs
+- [ ] Display and notify vaccine schedules

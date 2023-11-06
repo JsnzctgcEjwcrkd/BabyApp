@@ -62,19 +62,18 @@
   <%= link_to ">>", logs_path(move: @days), class: "btn btn-sm btn-secondary" %>
 </div>
 
-<div class="btn-group" role="group" aria-label="Basic example">
+<div class="btn-group" role="group" aria-label="Basic example" id="view_btn">
   <%= link_to "週", logs_path(disp: 7), class: "btn btn-dark btn-sm" %>
   <%= link_to "過去表示", logs_path(display_ago: (@display_ago == 1 ? 0 : 1)), id: "display-ago-toggle", class: "btn btn-outline-primary btn-sm #{@display_ago_toggle_class}", role: "button", 'data-bs-toggle': "button", 'aria-pressed': @display_ago_toggle %>
   <%= link_to "日", logs_path(disp: 1), class: "btn btn-dark btn-sm" %>
   <%= link_to "3日", logs_path(disp: 3), class: "btn btn-dark btn-sm" %>
 </div>
 <%= link_to "備考一覧", description_index_path, class: "btn btn-sm btn-dark" %>
-<%= link_to "連絡帳サポート", nursery_support_index_path, class: "btn btn-sm btn-dark" %>
-<%= link_to "体温グラフ", chart_index_path, class: "btn btn-sm btn-primary" %>
-
+<%= link_to "連絡帳サポート", nursery_support_index_path, class: "btn btn-sm btn-dark", id: "nursery_support_btn" %>
+<%= link_to "体温グラフ", chart_index_path, class: "mr-3 btn btn-sm btn-primary",id: "chart_btn" %>
 
 <!-- Button trigger modal -->
-<div class="logs_fix_area text-center">
+<div class="logs_fix_area text-center" id="add_log_button">
   <div class="" id='syncing-info'>
     <p class="fs-6 mb-0"><i class="fas fa-sync-alt load"></i><span>&nbsp;同期中</span></p>
     <%# <p class="fs-6 mb-0" id="sync-percent">100%</p> %>
@@ -123,3 +122,96 @@
   </div>
 </div>
 <%= javascript_pack_tag 'logs/table_view' %>
+
+<script>
+  first_step = {
+    title: "デモをご覧いただきありがとうございます🌈",
+    content: "BabyAppへようこそ<p>BabyAppは子どものお世話の記録を付けるアプリです</p><p>このアプリのコダワリ機能と使い方を説明します</p>",
+    target: "body",
+    order: 1,
+  }
+  const steps = [
+  {
+    title: "使い方ガイド🌈",
+    content: "このアプリのコダワリ機能と使い方を説明します</p>",
+    target: "body",
+    order: 1,
+  },
+  {
+    title: "記録する📝",
+    content: '<%= image_tag 'insert_menu.png', class: 'img-max' %><p>お世話はここから記録します。✨</p>',
+    target: "#add_log_button",
+    order: 2,
+  },{
+    title: "記録が一目瞭然です⌚",
+    content: "<p>便の記録を例にとると、23時の35分、色は便色カード5番で、量は🤏（少し）という意味になります。📝</p><p>また、記録部分をタップで編集が可能です。</p>",
+    target: "#day2_stool_23",
+    order: 3,
+    },
+  {
+    title: "集計します",
+    content: "<p>母乳とミルクは集計しています。一日の総量が分かって便利です</p>",
+    target: "#day_0_syoukei",
+    order: 4,
+    },
+  {
+    title: "月齢、すぐわかる",
+    content: "<p>曜日や月齢などお医者様にかかったときに便利です</p>",
+    target: "#day2",
+    order: 5,
+    },
+    {
+      title: "眩しくありません🌱",
+      content: "日の出日の入りに合わせてダークモードへの切り替えを自動で行います。眩しさで赤ちゃんを起こしてしまう事がありません🙏</p>",
+      target: "#light_sw",
+      order: 6,
+    }
+  ,{
+    title: "パパママ連携ばっちりです",
+    content: "記録はアカウント内で同期します。パパ・ママが同一のアカウントでログインすればどこからでも記録・確認が可能です🏠",
+    target: "#data-for-ajax",
+    order: 7,
+    },
+    {
+    title: "スピード重視です",
+    content: '<p>素早く入力を行うために、初期値をカスタム可能。</p><%= image_tag 'setting_ss.png', class: 'img-max' %>',
+    target: "#setting_bt",
+    order: 8,
+    }
+    ,
+    {
+    title: "一覧表の操作はこちら",
+    content: '週・3日・1日とお好みに合わせて表示を切り替え可能。',
+    target: "#view_btn",
+    order: 9,
+    },
+    {
+    title: "連絡帳らくらく",
+    content: '<%= image_tag 'nursery_support_ss.png', class: 'img-max' %><p>保育園の連絡帳へ記入する内容を集計して表示します。</p>',
+    target: "#nursery_support_btn",
+    order: 10,
+    },
+    {
+    title: "体温の見える化",
+    content: '<%= image_tag 'body_tmp_ss.png', class: 'img-max' %><p>体温の記録はグラフで表示が便利。</p>',
+    target: "#chart_btn",
+    order: 11,
+    },
+    {
+    title: "ご意見ください",
+    content: "改善点、バグなどがあれば報告頂けると嬉しいです🙏",
+    target: "#data-for-ajax",
+    order: 12,
+    }
+]
+  <% if @demo_user && @path == "demo" %>
+    steps[0] = first_step
+  <% end %>
+  const tg = new tourguide.TourGuideClient({steps: steps})
+  <% if @demo_user && @path == "demo" %>
+    tg.start()
+  <% end %>
+  function tg_start() {
+    tg.start()
+  }
+</script>
