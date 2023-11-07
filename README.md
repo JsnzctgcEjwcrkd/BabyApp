@@ -95,19 +95,19 @@ graph LR
 
 ## Technical Specifications
 
-Ruby 3.2.2
-Ruby on Rails 7.1.1
-RSpec 3.12
-Rubocop
-Devise
-RubySunrise
-Ransack
-MySQL 8
-SQLite 3
-Webpack
-Chart.js
-Bootstrap 5
-FontAwesome
+- Ruby 3.2.2
+- Ruby on Rails 7.1.1
+- RSpec 3.12
+- Rubocop
+- Devise
+- RubySunrise
+- Ransack
+- MySQL 8
+- SQLite 3
+- Webpack
+- Chart.js
+- Bootstrap 5
+- FontAwesome
 
 ## Technology Stack
 
