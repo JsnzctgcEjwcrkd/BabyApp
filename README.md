@@ -131,7 +131,7 @@ graph LR
 - [ ] Transform into microservices and set up a DevOps environment using Kubernetes
 - [ ] Calculate day-night based on the input of the residential area
 - [ ] Implement synchronization using ActionCable
-- [ ] Implement bulk insert
+- [x] Implement bulk insert
 - [ ] List and preview photos, files (PDF, .txt, .png, .jpeg, movies, etc.)
 - [ ] Support embedded URLs
 - [ ] Display and notify vaccine schedules
