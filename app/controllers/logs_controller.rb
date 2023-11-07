@@ -56,7 +56,7 @@ class LogsController < ApplicationController
                         .where(date_time: params[:startDate].to_date..(params[:startDate].to_date + params[:days].to_i.day))
                         .order(date_time: 'ASC')
                         .order(id: 'ASC')
-    render json: { logs: @logs }
+    render json: { logs: @logs.includes(:tags) }
   end
 
   # GET /logs/1 or /logs/1.json
