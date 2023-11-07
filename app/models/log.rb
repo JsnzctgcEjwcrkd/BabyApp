@@ -15,4 +15,8 @@ class Log < ApplicationRecord
   def self.ransackable_attributes(_auth_object = nil)
     ['description']
   end
+
+  def tag_list
+    tags.map(&:name)
+  end
 end

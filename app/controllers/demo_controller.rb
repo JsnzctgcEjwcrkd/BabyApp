@@ -25,23 +25,25 @@ class DemoController < ApplicationController
   end
 
   def load_custom_seed_data
+    log = []
     week_range = 6.days.ago...Time.zone.now
     current_date = week_range.begin
     while current_date <= week_range.end
       date = current_date.to_date
-      create_body_temp(date)
-      create_milk(date)
-      create_breasts(date)
-      create_stool(date)
-      create_urines(date)
+      log << create_body_temp(date)
+      log << create_milk(date)
+      log << create_breasts(date)
+      log << create_stool(date)
+      log << create_urines(date)
       create_desc_parents_doby_tmp(date)
       current_date += 1.day
     end
-    create_high_body_temp(2.days.ago)
+    log << create_high_body_temp(2.days.ago)
     create_desc_wake_sleep(1.days.ago)
     create_desc_wake_sleep_today(Time.zone.now)
     create_desc_meal(Time.zone.now)
     create_desc_note_plan(1.days.ago)
+    Log.insert_all(log.flatten)
   end
 
   def client_ip
@@ -53,15 +55,16 @@ class DemoController < ApplicationController
     random_time = Faker::Time.between(from: specified_time - 15.minutes, to: specified_time + 15.minutes)
     truncated_minutes = (random_time.min / 5) * 5
     insert_date = Time.new(date.year, date.month, date.day, random_time.hour, truncated_minutes, 0)
-    Log.create(
+    Log.new(
       log_type: 4,
       body_temperature: rand(36.5..37.6).to_d.truncate(1).to_f,
       date_time: insert_date,
       user_id: @user.id
-    )
+    ).as_json(except: %i[tag_list id created_at updated_at])
   end
 
   def create_milk(date)
+    log = []
     6.times do |i|
       dividend = 24 / 6.0
       hour = (i * dividend).to_i
@@ -69,16 +72,18 @@ class DemoController < ApplicationController
       random_time = Faker::Time.between(from: specified_time - 5.minutes, to: specified_time + 15.minutes)
       truncated_minutes = (random_time.min / 5) * 5
       insert_date = Time.new(date.year, date.month, date.day, random_time.hour, truncated_minutes, 0)
-      Log.create(
+      log << Log.new(
         log_type: 1,
         milk_amount: 60,
         date_time: insert_date,
         user_id: @user.id
-      )
+      ).as_json(except: %i[tag_list id created_at updated_at])
     end
+    log
   end
 
   def create_breasts(date)
+    log = []
     10.times do |i|
       dividend = 24 / 10.0
       hour = (i * dividend).to_i
@@ -86,15 +91,17 @@ class DemoController < ApplicationController
       random_time = Faker::Time.between(from: specified_time - 5.minutes, to: specified_time + 15.minutes)
       truncated_minutes = (random_time.min / 5) * 5
       insert_date = Time.new(date.year, date.month, date.day, random_time.hour, truncated_minutes, 0)
-      Log.create(
+      log << Log.new(
         log_type: 0,
         date_time: insert_date,
         user_id: @user.id
-      )
+      ).as_json(except: %i[tag_list id created_at updated_at])
     end
+    log
   end
 
   def create_stool(date)
+    log = []
     2.times do |i|
       dividend = 24 / 2
       hour = (i * dividend).to_i + 3
@@ -102,17 +109,19 @@ class DemoController < ApplicationController
       random_time = Faker::Time.between(from: specified_time - 55.minutes, to: specified_time + 55.minutes)
       truncated_minutes = (random_time.min / 5) * 5
       insert_date = Time.new(date.year, date.month, date.day, random_time.hour, truncated_minutes, 0)
-      Log.create(
+      log << Log.new(
         log_type: 3,
         stool_little: [true, false].sample,
         stool_color: rand(1..5),
         date_time: insert_date,
         user_id: @user.id
-      )
+      ).as_json(except: %i[tag_list id created_at updated_at])
     end
+    log
   end
 
   def create_urines(date)
+    log = []
     6.times do |i|
       dividend = 24 / 6.0
       hour = (i * dividend).to_i + 1
@@ -120,15 +129,17 @@ class DemoController < ApplicationController
       random_time = Faker::Time.between(from: specified_time - 5.minutes, to: specified_time + 15.minutes)
       truncated_minutes = (random_time.min / 5) * 5
       insert_date = Time.new(date.year, date.month, date.day, random_time.hour, truncated_minutes, 0)
-      Log.create(
+      log << Log.new(
         log_type: 2,
         date_time: insert_date,
         user_id: @user.id
-      )
+      ).as_json(except: %i[tag_list id created_at updated_at])
     end
+    log
   end
 
   def create_high_body_temp(datetime)
+    log = []
     6.times do |i|
       dividend = 24 / 6.0
       hour = (i * dividend).to_i + 1
@@ -136,13 +147,14 @@ class DemoController < ApplicationController
       random_time = Faker::Time.between(from: specified_time - 5.minutes, to: specified_time + 15.minutes)
       truncated_minutes = (random_time.min / 5) * 5
       insert_date = Time.new(datetime.year, datetime.month, datetime.day, random_time.hour, truncated_minutes, 0)
-      Log.create(
+      log << Log.new(
         log_type: 4,
         body_temperature: rand(37.9..39.6).to_d.truncate(1).to_f,
         date_time: insert_date,
         user_id: @user.id
-      )
+      ).as_json(except: %i[tag_list id created_at updated_at])
     end
+    log
   end
 
   def create_desc_parents_doby_tmp(date)
