@@ -25,9 +25,11 @@
             <ul class="navbar-nav">
               <% if user_signed_in? %>
                 <% if @demo_user %>
-                  <%= link_to "使い方ガイドを再表示", "#", onclick: "tg_start()", class: "btn  btn-warning",
+                <li class="d-flex align-items-center">
+                  <%= link_to "ガイド再表示", "#", onclick: "tg_start()", class: "btn btn-warning text-nowrap btn-sm", role: "button",
                       style: 'margin-right: 10px;'
                   %>
+                </li>
                 <% end %>
                 <span class="me-2 navbar-text" id="light_sw">
                   <label class="d-inline-block me-1" for="lighting-sw"><i class="fas fa-lightbulb"></i></label>
