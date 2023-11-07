@@ -5,7 +5,7 @@ class DescriptionController < ApplicationController
 
   def index
     @q = current_user.logs.where(log_type: 5).ransack(params[:q])
-    @logs = @q.result.order(id: 'DESC').page(params[:page]).per(10)
+    @logs = @q.result.includes([:tags]).order(id: 'DESC').page(params[:page]).per(10)
   end
 
   def edit; end
